@@ -1,8 +1,10 @@
 package Skins.service;
+
 import Skins.dto.SkinRequestDTO;
+import Skins.exception.ResourceNotFoundException;
 import Skins.model.Skin;
 import Skins.repository.SkinRepository;
-import com.tienda.usuario.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,12 +28,16 @@ public class SkinService {
 
     public Skin buscarPorId(Long id) {
 
+        log.info("Buscando skin con id: {}", id);
+
         return repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Skin no encontrada"));
     }
 
     public Skin guardar(SkinRequestDTO dto) {
+
+        log.info("Guardando skin: {}", dto.getNombre());
 
         Skin skin = new Skin();
 
@@ -45,6 +51,8 @@ public class SkinService {
 
     public Skin actualizar(Long id, SkinRequestDTO dto) {
 
+        log.info("Actualizando skin con id: {}", id);
+
         Skin skin = buscarPorId(id);
 
         skin.setNombre(dto.getNombre());
@@ -56,6 +64,8 @@ public class SkinService {
     }
 
     public void eliminar(Long id) {
+
+        log.info("Eliminando skin con id: {}", id);
 
         Skin skin = buscarPorId(id);
 

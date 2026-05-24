@@ -1,4 +1,4 @@
-package Skins.conroller;
+package Skins.controller;
 
 import Skins.dto.SkinRequestDTO;
 import Skins.model.Skin;
