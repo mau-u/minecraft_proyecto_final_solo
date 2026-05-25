@@ -3,7 +3,7 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Annotation profile for carrito-service" enabled="true">
+      <profile name="Annotation profile for reviews-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -11,19 +11,34 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
+        <module name="reviews" />
         <module name="compra" />
-        <module name="usuario" />
-        <module name="usuario (1)" />
-        <module name="carrito-service" />
+        <module name="favoritos" />
       </profile>
-      <profile name="Annotation profile for inventario-service" enabled="true">
+      <profile name="Annotation profile for notificaciones" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="notificaciones" />
+      </profile>
+      <profile name="Annotation profile for wishlist-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
+        <module name="usuario (1)" />
+        <module name="wishlist" />
+        <module name="usuario (2)" />
+        <module name="usuario" />
+        <module name="pagos" />
         <module name="inventario-service" />
+        <module name="carrito-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -31,9 +46,15 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="carrito-service" options="-parameters" />
       <module name="compra" options="-parameters" />
+      <module name="favoritos" options="-parameters" />
       <module name="inventario-service" options="-parameters" />
+      <module name="notificaciones" options="-parameters" />
+      <module name="pagos" options="-parameters" />
+      <module name="reviews" options="-parameters" />
       <module name="usuario" options="-parameters" />
       <module name="usuario (1)" options="-parameters" />
+      <module name="usuario (2)" options="-parameters" />
+      <module name="wishlist" options="-parameters" />
     </option>
   </component>
 </project>

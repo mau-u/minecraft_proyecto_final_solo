@@ -4,7 +4,12 @@
     <file url="file://$PROJECT_DIR$/Skins/Skins/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/carrito-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/compra-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/favoritos-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/inventario-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notificaciones-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pagos-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/reviews-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/usuario/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wishlist-service/src/main/java" charset="UTF-8" />
   </component>
 </project>
