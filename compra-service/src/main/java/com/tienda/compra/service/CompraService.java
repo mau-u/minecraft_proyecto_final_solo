@@ -6,102 +6,109 @@ import com.tienda.compra.entity.Compra;
 import com.tienda.compra.entity.DetalleCompra;
 import com.tienda.compra.exception.ResourceNotFoundException;
 import com.tienda.compra.repository.CompraRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CompraService {
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(CompraService.class);
-
     private final CompraRepository compraRepository;
+    private final WebClient webClient;
 
-    public CompraService(CompraRepository compraRepository) {
+    public CompraService(
+            CompraRepository compraRepository,
+            WebClient webClient
+    ) {
         this.compraRepository = compraRepository;
+        this.webClient = webClient;
     }
 
     public List<Compra> listarCompras() {
-
-        logger.info("Listando compras");
-
+        log.info("Listando compras");
         return compraRepository.findAll();
     }
 
     public Compra obtenerCompra(Long id) {
 
-        logger.info("Buscando compra {}", id);
+        log.info("Buscando compra {}", id);
 
         return compraRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Compra no encontrada"));
+                        new ResourceNotFoundException("Compra no encontrada"));
     }
 
     public Compra guardarCompra(CompraRequestDTO dto) {
 
-        logger.info(
-                "Creando compra para usuario {}",
-                dto.getUsuarioId()
-        );
+        log.info("Creando compra para usuario {}", dto.getUsuarioId());
 
         Compra compra = new Compra();
 
         compra.setUsuarioId(dto.getUsuarioId());
-
         compra.setFecha(LocalDateTime.now());
 
-        List<DetalleCompra> detalles =
-                new ArrayList<>();
+        List<DetalleCompra> detalles = new ArrayList<>();
 
         double total = 0;
 
-        for (DetalleRequestDTO detalleDTO :
-                dto.getDetalles()) {
+        try {
 
-            DetalleCompra detalle =
-                    new DetalleCompra();
+            for (DetalleRequestDTO detalleDTO : dto.getDetalles()) {
 
-            detalle.setSkinId(
-                    detalleDTO.getSkinId()
-            );
+                String inventarioResponse = webClient.put()
+                        .uri("http://localhost:8084/inventario/reducir")
+                        .bodyValue(detalleDTO)
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
 
-            detalle.setCantidad(
-                    detalleDTO.getCantidad()
-            );
+                log.info("Respuesta inventario: {}", inventarioResponse);
 
-            double subtotal =
-                    detalleDTO.getCantidad() * 5000;
+                DetalleCompra detalle = new DetalleCompra();
 
-            detalle.setSubtotal(subtotal);
+                detalle.setSkinId(detalleDTO.getSkinId());
+                detalle.setCantidad(detalleDTO.getCantidad());
 
-            detalle.setCompra(compra);
+                double subtotal = detalleDTO.getCantidad() * 5000;
 
-            detalles.add(detalle);
+                detalle.setSubtotal(subtotal);
 
-            total += subtotal;
+                detalle.setCompra(compra);
+
+                detalles.add(detalle);
+
+                total += subtotal;
+            }
+
+            compra.setDetalles(detalles);
+            compra.setTotal(total);
+
+            Compra compraGuardada = compraRepository.save(compra);
+
+            log.info("Compra guardada correctamente");
+
+            return compraGuardada;
+
+        } catch (Exception e) {
+
+            log.error("Error al crear compra: {}", e.getMessage());
+
+            throw new RuntimeException("Error al procesar compra");
         }
-
-        compra.setDetalles(detalles);
-
-        compra.setTotal(total);
-
-        return compraRepository.save(compra);
     }
 
     public void eliminarCompra(Long id) {
 
         Compra compra = obtenerCompra(id);
 
-        logger.warn(
-                "Eliminando compra {}",
-                id
-        );
+        log.warn("Eliminando compra {}", id);
 
         compraRepository.delete(compra);
     }

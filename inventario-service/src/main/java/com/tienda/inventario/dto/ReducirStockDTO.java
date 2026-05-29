@@ -10,7 +10,7 @@ import lombok.Setter;
 public class ReducirStockDTO {
 
     @NotNull
-    private Long skinId;
+    private Long productoId;
 
     @NotNull
     @Min(1)

@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface InventarioRepository extends JpaRepository<Inventario, Long> {
 
-    Optional<Inventario> findBySkinId(Long skinId);
+    Optional<Inventario> findByProductoId(Long productoId);
 }

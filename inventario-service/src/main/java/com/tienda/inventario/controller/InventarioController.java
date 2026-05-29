@@ -7,33 +7,33 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/inventario")
 public class InventarioController {
 
-    private final InventarioService service;
+    private final InventarioService inventarioService;
 
-    public InventarioController(InventarioService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public ResponseEntity<Inventario> crear(@RequestBody Inventario inventario) {
-        return ResponseEntity.ok(service.crear(inventario));
-    }
-
-    @GetMapping("/{skinId}")
-    public ResponseEntity<Inventario> obtener(@PathVariable Long skinId) {
-        return ResponseEntity.ok(service.obtenerPorSkinId(skinId));
-    }
-
-    @PutMapping("/reducir")
-    public ResponseEntity<Inventario> reducir(@Valid @RequestBody ReducirStockDTO dto) {
-        return ResponseEntity.ok(service.reducirStock(dto));
+    public InventarioController(InventarioService inventarioService) {
+        this.inventarioService = inventarioService;
     }
 
     @GetMapping
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Inventario OK");
+    public ResponseEntity<List<Inventario>> listar() {
+        return ResponseEntity.ok(inventarioService.listar());
+    }
+
+    @PostMapping
+    public ResponseEntity<Inventario> guardar(@Valid @RequestBody Inventario inventario) {
+        return ResponseEntity.ok(inventarioService.guardar(inventario));
+    }
+
+    @PutMapping("/reducir")
+    public ResponseEntity<String> reducirStock(
+            @Valid @RequestBody ReducirStockDTO dto
+    ) {
+        inventarioService.reducirStock(dto.getProductoId(), dto.getCantidad());
+        return ResponseEntity.ok("Stock reducido correctamente");
     }
 }

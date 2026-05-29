@@ -4,10 +4,8 @@ import Skins.dto.SkinRequestDTO;
 import Skins.exception.ResourceNotFoundException;
 import Skins.model.Skin;
 import Skins.repository.SkinRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +18,11 @@ public class SkinService {
     private final SkinRepository repository;
 
     public List<Skin> listar() {
-
         log.info("Listando skins");
-
         return repository.findAll();
     }
 
     public Skin buscarPorId(Long id) {
-
         log.info("Buscando skin con id: {}", id);
 
         return repository.findById(id)
@@ -42,9 +37,12 @@ public class SkinService {
         Skin skin = new Skin();
 
         skin.setNombre(dto.getNombre());
-        skin.setCategoria(dto.getCategoria());
         skin.setPrecio(dto.getPrecio());
-        skin.setDisponible(dto.getDisponible());
+
+        // valores por defecto si no los mandas
+        skin.setUrlTextura("default.png");
+        skin.setTipoModelo("default");
+        skin.setRareza("comun");
 
         return repository.save(skin);
     }
@@ -56,9 +54,7 @@ public class SkinService {
         Skin skin = buscarPorId(id);
 
         skin.setNombre(dto.getNombre());
-        skin.setCategoria(dto.getCategoria());
         skin.setPrecio(dto.getPrecio());
-        skin.setDisponible(dto.getDisponible());
 
         return repository.save(skin);
     }

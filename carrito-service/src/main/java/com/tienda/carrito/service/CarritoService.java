@@ -4,67 +4,73 @@ import com.tienda.carrito.dto.AddItemDTO;
 import com.tienda.carrito.model.Carrito;
 import com.tienda.carrito.model.ItemCarrito;
 import com.tienda.carrito.repository.CarritoRepository;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 public class CarritoService {
 
-    private final CarritoRepository carritoRepository;
+    private final CarritoRepository repository;
 
-    public CarritoService(CarritoRepository carritoRepository) {
-        this.carritoRepository = carritoRepository;
+    public CarritoService(
+            CarritoRepository repository
+    ) {
+        this.repository = repository;
     }
 
-    public Carrito obtenerOCrearCarrito(Long userId) {
-        return carritoRepository.findByUserId(userId)
-                .orElseGet(() -> {
-                    Carrito carrito = new Carrito();
-                    carrito.setUserId(userId);
-                    carrito.setTotal(0.0);
-                    log.info("Carrito creado para usuario {}", userId);
-                    return carritoRepository.save(carrito);
-                });
-    }
+    public Carrito agregarItem(
+            AddItemDTO dto
+    ) {
 
-    public Carrito agregarItem(AddItemDTO dto) {
+        Carrito carrito =
+                repository.findByUserId(
+                        dto.getUserId()
+                ).orElse(new Carrito());
 
-        Carrito carrito = obtenerOCrearCarrito(dto.getUserId());
+        carrito.setUserId(dto.getUserId());
 
-        ItemCarrito item = new ItemCarrito();
+        ItemCarrito item =
+                new ItemCarrito();
+
         item.setSkinId(dto.getSkinId());
         item.setNombreSkin(dto.getNombreSkin());
-        item.setPrecio(dto.getPrecio());
         item.setCantidad(dto.getCantidad());
+        item.setPrecio(dto.getPrecio());
         item.setCarrito(carrito);
 
         carrito.getItems().add(item);
 
-        double total = carrito.getItems()
-                .stream()
-                .mapToDouble(i -> i.getPrecio() * i.getCantidad())
-                .sum();
+        double total =
+                carrito.getItems()
+                        .stream()
+                        .mapToDouble(i ->
+                                i.getPrecio()
+                                        * i.getCantidad())
+                        .sum();
 
         carrito.setTotal(total);
 
-        log.info("Item agregado al carrito del usuario {}", dto.getUserId());
-
-        return carritoRepository.save(carrito);
+        return repository.save(carrito);
     }
 
     public Carrito verCarrito(Long userId) {
-        return carritoRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+
+        return repository.findByUserId(userId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Carrito no encontrado"
+                        ));
     }
 
     public void vaciarCarrito(Long userId) {
-        Carrito carrito = obtenerOCrearCarrito(userId);
+
+        Carrito carrito =
+                verCarrito(userId);
+
         carrito.getItems().clear();
+
         carrito.setTotal(0.0);
 
-        carritoRepository.save(carrito);
-
-        log.info("Carrito vaciado para usuario {}", userId);
+        repository.save(carrito);
     }
 }

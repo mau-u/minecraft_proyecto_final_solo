@@ -1,14 +1,13 @@
 package Skins.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
 @Table(name = "skins")
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Skin {
 
@@ -30,15 +29,4 @@ public class Skin {
 
     @Column(nullable = false)
     private Double precio;
-
-
-    public Skin() {
-    }
-
-    public void setCategoria(@NotBlank(message = "La categoría es obligatoria") String categoria) {
-    }
-
-    public void setDisponible(@NotNull(message = "La disponibilidad es obligatoria") Boolean disponible) {
-
-    }
 }

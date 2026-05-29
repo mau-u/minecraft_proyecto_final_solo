@@ -3,19 +3,23 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Annotation profile for reviews-service" enabled="true">
+      <profile name="Annotation profile for wishlist-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="reviews" />
-        <module name="compra" />
-        <module name="favoritos" />
+        <module name="usuario" />
       </profile>
-      <profile name="Annotation profile for notificaciones" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="compra" />
+        <module name="inventario-service" />
+      </profile>
+      <profile name="Annotation profile for usuario" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -24,21 +28,22 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
         <module name="notificaciones" />
+        <module name="reviews" />
+        <module name="usuario (1)" />
+        <module name="usuario (2)" />
+        <module name="favoritos" />
+        <module name="pagos" />
+        <module name="carrito-service" />
       </profile>
-      <profile name="Annotation profile for wishlist-service" enabled="true">
+      <profile name="Annotation profile for wishlist" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="usuario (1)" />
         <module name="wishlist" />
-        <module name="usuario (2)" />
-        <module name="usuario" />
-        <module name="pagos" />
-        <module name="inventario-service" />
-        <module name="carrito-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -51,7 +56,6 @@
       <module name="notificaciones" options="-parameters" />
       <module name="pagos" options="-parameters" />
       <module name="reviews" options="-parameters" />
-      <module name="usuario" options="-parameters" />
       <module name="usuario (1)" options="-parameters" />
       <module name="usuario (2)" options="-parameters" />
       <module name="wishlist" options="-parameters" />

@@ -1,40 +1,45 @@
 package com.tienda.inventario.service;
 
-import com.tienda.inventario.dto.ReducirStockDTO;
 import com.tienda.inventario.model.Inventario;
 import com.tienda.inventario.repository.InventarioRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@Slf4j
 public class InventarioService {
 
-    private final InventarioRepository repository;
+    private static final Logger logger =
+            LoggerFactory.getLogger(InventarioService.class);
 
-    public InventarioService(InventarioRepository repository) {
-        this.repository = repository;
+    private final InventarioRepository inventarioRepository;
+
+    public InventarioService(InventarioRepository inventarioRepository) {
+        this.inventarioRepository = inventarioRepository;
     }
 
-    public Inventario crear(Inventario inventario) {
-        return repository.save(inventario);
+    public List<Inventario> listar() {
+        return inventarioRepository.findAll();
     }
 
-    public Inventario obtenerPorSkinId(Long skinId) {
-        return repository.findBySkinId(skinId)
-                .orElseThrow(() -> new RuntimeException("Skin no existe en inventario"));
+    public Inventario guardar(Inventario inventario) {
+        return inventarioRepository.save(inventario);
     }
 
-    public Inventario reducirStock(ReducirStockDTO dto) {
+    public void reducirStock(Long productoId, Integer cantidad) {
 
-        Inventario inventario = obtenerPorSkinId(dto.getSkinId());
+        Inventario inventario = inventarioRepository
+                .findByProductoId(productoId)
+                .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
 
-        if (inventario.getStock() < dto.getCantidad()) {
+        if (inventario.getStock() < cantidad) {
             throw new RuntimeException("Stock insuficiente");
         }
 
-        inventario.setStock(inventario.getStock() - dto.getCantidad());
+        inventario.setStock(inventario.getStock() - cantidad);
 
-        return repository.save(inventario);
+        inventarioRepository.save(inventario);
     }
 }

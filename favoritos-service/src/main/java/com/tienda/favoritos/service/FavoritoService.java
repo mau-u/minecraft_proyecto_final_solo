@@ -20,13 +20,16 @@ public class FavoritoService {
 
     public Favorito agregar(FavoritoDTO dto) {
 
-        boolean existe = repository.existsByUserIdAndSkinId(
-                dto.getUserId(),
-                dto.getSkinId()
-        );
+        boolean existe =
+                repository.existsByUserIdAndSkinId(
+                        dto.getUserId(),
+                        dto.getSkinId()
+                );
 
         if (existe) {
-            throw new RuntimeException("La skin ya está en favoritos");
+            throw new RuntimeException(
+                    "La skin ya está en favoritos"
+            );
         }
 
         Favorito favorito = new Favorito();
@@ -35,25 +38,28 @@ public class FavoritoService {
         favorito.setSkinId(dto.getSkinId());
         favorito.setNombreSkin(dto.getNombreSkin());
 
-        log.info("Skin agregada a favoritos del usuario {}", dto.getUserId());
+        log.info(
+                "Favorito agregado usuario {}",
+                dto.getUserId()
+        );
 
         return repository.save(favorito);
     }
 
     public List<Favorito> listar(Long userId) {
 
-        log.info("Listando favoritos del usuario {}", userId);
-
         return repository.findByUserId(userId);
     }
 
     public void eliminar(Long id) {
 
-        Favorito favorito = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Favorito no encontrado"));
+        Favorito favorito =
+                repository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Favorito no encontrado"
+                                ));
 
         repository.delete(favorito);
-
-        log.info("Favorito eliminado {}", id);
     }
 }
