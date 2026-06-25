@@ -3,6 +3,14 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="compra" />
+        <module name="inventario-service" />
+        <module name="gateway-service" />
+      </profile>
       <profile name="Annotation profile for wishlist-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -11,13 +19,6 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
         <module name="usuario" />
-      </profile>
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="compra" />
-        <module name="inventario-service" />
       </profile>
       <profile name="Annotation profile for usuario" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -52,6 +53,7 @@
       <module name="carrito-service" options="-parameters" />
       <module name="compra" options="-parameters" />
       <module name="favoritos" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
       <module name="inventario-service" options="-parameters" />
       <module name="notificaciones" options="-parameters" />
       <module name="pagos" options="-parameters" />

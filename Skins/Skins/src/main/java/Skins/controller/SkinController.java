@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skins")
+@RequestMapping("/skins")
 @RequiredArgsConstructor
 public class SkinController {
     private final SkinService service;

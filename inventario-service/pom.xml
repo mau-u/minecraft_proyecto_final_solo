@@ -41,6 +41,13 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!-- SWAGGER / OPENAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
         <!-- MYSQL -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -62,7 +69,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- DEVTOOLS (opcional) -->
+        <!-- DEVTOOLS -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
