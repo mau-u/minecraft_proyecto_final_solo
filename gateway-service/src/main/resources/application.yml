@@ -11,51 +11,51 @@ spring:
         webflux:
           routes:
             - id: usuario-service
-              uri: http://localhost:8080
+              uri: http://usuario-service:8080
               predicates:
                 - Path=/usuarios/**
 
             - id: skins-service
-              uri: http://localhost:8081
+              uri: http://skins-service:8081
               predicates:
                 - Path=/skins/**
 
             - id: compra-service
-              uri: http://localhost:8082
+              uri: http://compra-service:8082
               predicates:
                 - Path=/compras/**
 
             - id: carrito-service
-              uri: http://localhost:8083
+              uri: http://carrito-service:8083
               predicates:
                 - Path=/carrito/**
 
             - id: inventario-service
-              uri: http://localhost:8084
+              uri: http://inventario-service:8084
               predicates:
                 - Path=/inventario/**
 
             - id: pagos-service
-              uri: http://localhost:8085
+              uri: http://pagos-service:8085
               predicates:
                 - Path=/pagos/**
 
             - id: favoritos-service
-              uri: http://localhost:8086
+              uri: http://favoritos-service:8086
               predicates:
                 - Path=/favoritos/**
 
             - id: reviews-service
-              uri: http://localhost:8087
+              uri: http://reviews-service:8087
               predicates:
                 - Path=/reviews/**
 
             - id: notificaciones-service
-              uri: http://localhost:8088
+              uri: http://notificaciones-service:8088
               predicates:
                 - Path=/notificaciones/**
 
             - id: wishlist-service
-              uri: http://localhost:8089
+              uri: http://wishlist-service:8089
               predicates:
                 - Path=/wishlist/**

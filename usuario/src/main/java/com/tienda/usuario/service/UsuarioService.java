@@ -1,11 +1,11 @@
 package com.tienda.usuario.service;
 
 import com.tienda.usuario.entity.Usuario;
+import com.tienda.usuario.exception.ResourceNotFoundException;
 import com.tienda.usuario.repository.UsuarioRepository;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.tienda.usuario.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -22,6 +22,9 @@ public class UsuarioService {
     }
 
     public List<Usuario> listarUsuarios() {
+
+        logger.info("Listando todos los usuarios");
+
         return usuarioRepository.findAll();
     }
 
@@ -33,22 +36,23 @@ public class UsuarioService {
     }
 
     public Usuario obtenerUsuario(Long id) {
-        return usuarioRepository.findById(id).orElse(null);
+
+        logger.info("Buscando usuario con ID: {}", id);
+
+        return usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Usuario no encontrado"));
     }
 
-    public void eliminarUsuario(Long id) {
-
-        logger.warn("Eliminando usuario con ID: {}", id);
-
-        usuarioRepository.deleteById(id);
-    }
-
-    public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado){
+    public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
 
         logger.info("Actualizando usuario con ID: {}", id);
 
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Usuario no encontrado"));
 
         usuario.setNombre(usuarioActualizado.getNombre());
         usuario.setEmail(usuarioActualizado.getEmail());
@@ -57,4 +61,19 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
+
+    public void eliminarUsuario(Long id) {
+
+        logger.warn("Eliminando usuario con ID: {}", id);
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Usuario no encontrado"));
+
+        usuarioRepository.delete(usuario);
+
+        logger.info("Usuario eliminado correctamente");
+    }
+
 }

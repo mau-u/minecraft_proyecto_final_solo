@@ -1,0 +1,127 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3306:3306"
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --init-file=/docker-entrypoint-initdb.d/init.sql
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  usuario:
+    build: ./usuario
+    container_name: usuario-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  skins:
+    build: ./Skins/Skins
+    container_name: skins-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+
+  compra:
+    build: ./compra-service
+    container_name: compra-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8082:8082"
+
+  carrito:
+    build: ./carrito-service
+    container_name: carrito-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8083:8083"
+
+  inventario:
+    build: ./inventario-service
+    container_name: inventario-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8084:8084"
+
+  pagos:
+    build: ./pagos-service
+    container_name: pagos-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8085:8085"
+
+  favoritos:
+    build: ./favoritos-service
+    container_name: favoritos-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8086:8086"
+
+  reviews:
+    build: ./reviews-service
+    container_name: reviews-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8087:8087"
+
+  notificaciones:
+    build: ./notificaciones-service
+    container_name: notificaciones-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8088:8088"
+
+  wishlist:
+    build: ./wishlist-service
+    container_name: wishlist-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8089:8089"
+
+  gateway:
+    build: ./gateway-service
+    container_name: gateway-service
+    depends_on:
+      - usuario
+      - skins
+      - compra
+      - carrito
+      - inventario
+      - pagos
+      - favoritos
+      - reviews
+      - notificaciones
+      - wishlist
+    ports:
+      - "8090:8090"

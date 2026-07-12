@@ -1,11 +1,12 @@
 package com.tienda.usuario.controller;
 
+import com.tienda.usuario.dto.UsuarioRequestDTO;
 import com.tienda.usuario.entity.Usuario;
 import com.tienda.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.tienda.usuario.dto.UsuarioRequestDTO;
 
 import java.util.List;
 
@@ -20,8 +21,13 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> listarUsuarios() {
-        return usuarioService.listarUsuarios();
+    public ResponseEntity<List<Usuario>> listarUsuarios() {
+        return ResponseEntity.ok(usuarioService.listarUsuarios());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> obtenerUsuario(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.obtenerUsuario(id));
     }
 
     @PostMapping
@@ -35,17 +41,9 @@ public class UsuarioController {
         usuario.setPassword(dto.getPassword());
         usuario.setRol(dto.getRol());
 
-        return ResponseEntity.ok(usuarioService.guardarUsuario(usuario));
-    }
-
-    @GetMapping("/{id}")
-    public Usuario obtenerUsuario(@PathVariable Long id) {
-        return usuarioService.obtenerUsuario(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminarUsuario(@PathVariable Long id) {
-        usuarioService.eliminarUsuario(id);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(usuarioService.guardarUsuario(usuario));
     }
 
     @PutMapping("/{id}")
@@ -63,5 +61,13 @@ public class UsuarioController {
         return ResponseEntity.ok(
                 usuarioService.actualizarUsuario(id, usuario)
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+
+        usuarioService.eliminarUsuario(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
