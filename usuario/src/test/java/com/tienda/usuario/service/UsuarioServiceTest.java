@@ -88,4 +88,53 @@ class UsuarioServiceTest {
 
         verify(usuarioRepository).delete(usuario);
     }
+
+    @Test
+    void actualizarUsuario_DeberiaActualizarCorrectamente() {
+
+        Usuario existente = new Usuario();
+        existente.setId(1L);
+        existente.setNombre("Juan");
+        existente.setEmail("juan@test.cl");
+        existente.setPassword("1234");
+        existente.setRol("USER");
+
+        Usuario actualizado = new Usuario();
+        actualizado.setNombre("Mauricio");
+        actualizado.setEmail("mauricio@test.cl");
+        actualizado.setPassword("5678");
+        actualizado.setRol("ADMIN");
+
+        when(usuarioRepository.findById(1L))
+                .thenReturn(Optional.of(existente));
+
+        when(usuarioRepository.save(any(Usuario.class)))
+                .thenAnswer(i -> i.getArgument(0));
+
+        Usuario resultado = usuarioService.actualizarUsuario(1L, actualizado);
+
+        assertEquals("Mauricio", resultado.getNombre());
+        assertEquals("mauricio@test.cl", resultado.getEmail());
+        assertEquals("5678", resultado.getPassword());
+        assertEquals("ADMIN", resultado.getRol());
+
+        verify(usuarioRepository).findById(1L);
+        verify(usuarioRepository).save(any(Usuario.class));
+    }
+
+    @Test
+    void actualizarUsuario_DeberiaLanzarExcepcion() {
+
+        Usuario actualizado = new Usuario();
+
+        when(usuarioRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> usuarioService.actualizarUsuario(1L, actualizado)
+        );
+
+        verify(usuarioRepository).findById(1L);
+    }
 }
